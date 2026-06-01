@@ -1,0 +1,102 @@
+name: corporate-systems
+
+services:
+  cs-postgres:
+    image: postgres:17.10
+    container_name: cs-postgres
+    ports:
+      - "5448:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_NAME:-cs-m5}
+      POSTGRES_USER: ${POSTGRES_DB_USER:-csm5Admin}
+      POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD:-81238438192@3891}
+    volumes:
+      - cs-m5-postgres-volume:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 4g
+        reservations:
+          memory: 512m
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - cs-m5-network
+
+  cs-m5-mongodb:
+    image: mongo:7.0.34
+    container_name: cs-m5-mongodb
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGODB_DB_NAME:-csm5}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_DB_ROOT_USER:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_DB_ROOT_PASSWORD:-2u3sj1812}
+    volumes:
+      - ./mongodb/init.sh:/docker-entrypoint-initdb.d/init.sh
+      - cs-m5-mongo-volume:/data/db
+    ports:
+      - "27037:27017"
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 2g
+        reservations:
+          memory: 256m
+    networks:
+      - cs-m5-network
+
+  cs-m5-redis:
+    image: redis:8.6
+    container_name: cs-m5-redis
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - /var/lib/redis
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - "6399:6379"
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 2g
+        reservations:
+          memory: 256m
+    networks:
+      - cs-m5-network
+
+  cs-m5-rabbitmq:
+    image: rabbitmq:4.3.0-management
+    container_name: cs-m5-rabbitmq
+    ports:
+      - "5678:5672"
+      - "15678:15672"
+    environment:
+      - "TZ=Europe/Kiev"
+    volumes:
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./rabbitmq/rabbitmq.json:/etc/rabbitmq/definitions.json
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+          cpus: "1.0"
+        reservations:
+          memory: 256m
+    networks:
+      - cs-m5-network
+
+networks:
+  cs-m5-network:
+    name: cs-m5-network
+
+volumes:
+  cs-m5-postgres-volume:
+    driver: local
+  cs-m5-mongo-volume:
+    driver: local
