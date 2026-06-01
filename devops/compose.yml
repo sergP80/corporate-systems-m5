@@ -11,6 +11,7 @@ services:
       POSTGRES_USER: ${POSTGRES_DB_USER:-csm5Admin}
       POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD:-81238438192@3891}
     volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
       - cs-m5-postgres-volume:/var/lib/postgresql/data
     deploy:
       resources:
