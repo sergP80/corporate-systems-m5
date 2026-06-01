@@ -1,13 +1,13 @@
 mongosh -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD <<EOF
 
-use cs-m5;
+use csm5;
 
 db.createCollection('test');
 
 db.createUser(
     {
         user: 'mongo-user',
-        pwd: 'mongo@123ufsk192',
+        pwd: 'adj2ir9w1k3herw9f228',
         roles: [
             {
                 role: 'readWrite',

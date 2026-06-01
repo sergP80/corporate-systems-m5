@@ -31,9 +31,8 @@ services:
     image: mongo:7.0.34
     container_name: cs-m5-mongodb
     environment:
-      MONGO_INITDB_DATABASE: ${MONGODB_DB_NAME:-csm5}
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_DB_ROOT_USER:-root}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_DB_ROOT_PASSWORD:-2u3sj1812}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_DB_ROOT_PASSWORD:-246743341dfz43T53u}
     volumes:
       - ./mongodb/init.sh:/docker-entrypoint-initdb.d/init.sh
       - cs-m5-mongo-volume:/data/db

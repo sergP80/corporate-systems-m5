@@ -24,11 +24,24 @@ spring:
           merge:
             entity_copy_observer: allow
 
+  mongodb:
+    host: ${MONGO_HOST:localhost}
+    port: ${MONGO_PORT_PORT:27037}
+    username: ${MONGO_USERNAME:mongo-user}
+    password: ${MONGO_PASSWORD:adj2ir9w1k3herw9f228}
+    database: ${MONGO_DB:csm5}
+
   rabbitmq:
     host: ${RABBIT_HOST:localhost}
     port: ${RABBIT_PORT:5678}
     username: ${RABBIT_USER:rabbit}
     password: ${RABBIT_PASSWORD:ouw802jfsoaqsas}
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6399}
+      client-type: jedis
 
 management:
   server:
