@@ -1,0 +1,105 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-orders
+      author: sergii
+      changes:
+        - createTable:
+            schemaName: orders
+            tableName: customer_order
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: customer_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            schemaName: orders
+            tableName: customer_order_item
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: customer_order_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            constraintName: fk_customer_order_customer
+            baseTableSchemaName: orders
+            baseTableName: customer_order
+            baseColumnNames: customer_id
+            referencedTableSchemaName: customers
+            referencedTableName: customer
+            referencedColumnNames: id
+            onDelete: RESTRICT
+
+        - addForeignKeyConstraint:
+            constraintName: fk_customer_order_item_order
+            baseTableSchemaName: orders
+            baseTableName: customer_order_item
+            baseColumnNames: customer_order_id
+            referencedTableSchemaName: orders
+            referencedTableName: customer_order
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            constraintName: fk_customer_order_item_product
+            baseTableSchemaName: orders
+            baseTableName: customer_order_item
+            baseColumnNames: product_id
+            referencedTableSchemaName: products
+            referencedTableName: product
+            referencedColumnNames: id
+            onDelete: RESTRICT
+
+        - createIndex:
+            schemaName: orders
+            tableName: customer_order
+            indexName: idx_customer_order_customer
+            columns:
+              - column:
+                  name: customer_id
+
+        - createIndex:
+            schemaName: orders
+            tableName: customer_order_item
+            indexName: idx_customer_order_item_order
+            columns:
+              - column:
+                  name: customer_order_id
+
+        - createIndex:
+            schemaName: orders
+            tableName: customer_order_item
+            indexName: idx_customer_order_item_product
+            columns:
+              - column:
+                  name: product_id

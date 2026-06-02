@@ -1,4 +1,4 @@
-package ua.edu.chmnu.ki.m5.cs.controller;
+package ua.edu.chmnu.ki.m5.cs.web.api;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

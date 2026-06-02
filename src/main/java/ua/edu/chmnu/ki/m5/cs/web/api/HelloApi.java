@@ -1,4 +1,4 @@
-package ua.edu.chmnu.ki.m5.cs.controller;
+package ua.edu.chmnu.ki.m5.cs.web.api;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.validation.annotation.Validated;
